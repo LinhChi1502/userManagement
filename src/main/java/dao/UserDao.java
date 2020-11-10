@@ -35,6 +35,25 @@ public class UserDao implements IUserDao{
         }
         return users;
     }
+    public List<User> findAllUser() {
+        List<User> users = new ArrayList<>();
+        try {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(SELECT_ALL_USERS);
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                String email = rs.getString(3);
+                String country = rs.getString(4);
+                User user = new User(id, name, email, country);
+                users.add(user);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
 
     @Override
     public void save(User user) {
